@@ -33,20 +33,20 @@ class point(object):
         self.j = j
         self.k = k
 
-def distance_euclidean(p1,p2):   
+def distance_manhat(p1,p2):   
     result=0
-    result = result + pow((p1.a-p2.a),2)
-    result = result + pow((p1.b-p2.b),2)
-    result = result + pow((p1.c-p2.c),2)
-    result = result + pow((p1.d-p2.d),2)
-    result = result + pow((p1.e-p2.e),2)
-    result = result + pow((p1.f-p2.f),2)
-    result = result + pow((p1.g-p2.g),2)
-    result = result + pow((p1.h-p2.h),2)
-    result = result + pow((p1.i-p2.i),2)
-    result = result + pow((p1.j-p2.j),2)
-    result = result + pow((p1.k-p2.k),2)
-    return sqrt(result)
+    result = result + abs(p1.a-p2.a)
+    result = result + abs(p1.b-p2.b)
+    result = result + abs(p1.c-p2.c)
+    result = result + abs(p1.d-p2.d)
+    result = result + abs(p1.e-p2.e)
+    result = result + abs(p1.f-p2.f)
+    result = result + abs(p1.g-p2.g)
+    result = result + abs(p1.h-p2.h)
+    result = result + abs(p1.i-p2.i)
+    result = result + abs(p1.j-p2.j)
+    result = result + abs(p1.k-p2.k)
+    return result
     
 
 def node_objs(node,k):
@@ -65,6 +65,9 @@ def tree_objs(tree):
     return node_objs(tree.root,0)
 
 def main():
+
+    mtree = MTree(distance_manhat , max_node_size = 12)
+
     dataset = pd.read_csv('Pandas.csv')
     Pacient_ID = dataset.iloc[:, [0]].values
     SARS = dataset.iloc[:, [1]].values
@@ -102,22 +105,27 @@ def main():
             _MCHC=0
             if(not pd.isnull(MCHC[i][j])):
                 _MCHC = cast(MCHC[i][j])  
+
             ##Leukocytes g)
             _Leukocytes=0
             if(not pd.isnull(Leukocytes[i][j])):
-               _Leukocytes = cast(Leukocytes[i][j])     
+               _Leukocytes = cast(Leukocytes[i][j])   
+
             ##Basophils h)
             _Basophils=0
             if(not pd.isnull(Basophils[i][j])):
-               _Basophils = cast(Basophils[i][j])              
+               _Basophils = cast(Basophils[i][j])  
+
             ##Eosinophils i)
             _Eosinophils=0
             if(not pd.isnull(Eosinophils[i][j])):
-                _Eosinophils = cast(Eosinophils[i][j])   
+                _Eosinophils = cast(Eosinophils[i][j])  
+
             ##_Monocytes j)
             _Monocytes=0
             if(not pd.isnull(Monocytes[i][j])):
-                _Monocytes = cast(Monocytes[i][j])   
+                _Monocytes = cast(Monocytes[i][j])  
+                 
             ##_Proteina_C k)
             _Proteina_C=0
             if(not pd.isnull(Proteina_C[i][j])):
@@ -126,9 +134,17 @@ def main():
             puntos.append(point(Pacient_ID[i][j],SARS[i][j],float(Age_quantile[i][j]),_Hematocrit,_Platelets,_Platelet_volume,_MCHC,_Leukocytes,_Basophils,_Eosinophils,_Monocytes,_Proteina_C))
         
 
-    mtree = MTree(distance_euclidean , max_node_size = 12)
     for objects in puntos:
         mtree.add(objects)
-
     tree_objs(mtree)
+
+
+    print("####################### RANGE QUERIES ###############################")
+    radio = float(input("Ingrese el radio:\t"))
+    new_point_paciente = point(Pacient_ID[i][j],SARS[i][j],float(Age_quantile[i][j]),_Hematocrit,_Platelets,_Platelet_volume,_MCHC,_Leukocytes,_Basophils,_Eosinophils,_Monocytes,_Proteina_C)
+    querie = mtree.search_in_radius(new_point_paciente,radio)
+    for obj in querie:
+        print(obj)
+    print(len(querie),'object found')
+    
 main()
