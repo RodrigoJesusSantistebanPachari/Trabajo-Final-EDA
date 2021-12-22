@@ -47,7 +47,7 @@ def generalized_hyperplane(entries, routing_object1, routing_object2, d):
 class MTree(object):
     def __init__(self,
                  d,
-                 max_node_size=4,
+                 max_node_size,
                  promote=M_LB_DIST_confirmed,
                  partition=generalized_hyperplane):
         if not callable(d):
