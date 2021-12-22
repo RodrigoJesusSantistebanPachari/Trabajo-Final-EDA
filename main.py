@@ -87,7 +87,7 @@ def main():
         for j in range(len(Pacient_ID[i])):
 
             ##Hematocritos c)
-            _Hematocrit=1
+            _Hematocrit=0
             if(not pd.isnull(Hematocrit[i][j])):
                 _Hematocrit = cast(Hematocrit[i][j]) 
 
