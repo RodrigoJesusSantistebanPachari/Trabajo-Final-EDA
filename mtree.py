@@ -99,8 +99,8 @@ class MTree(object):
             
         return nn.result_list()
 
-    def search_in_radius(self, query_obj, k=1):
-        if k == 0: return []
+    def search_in_radius(self, query_obj, distance):
+        if distance == 0: return []
 
         #priority queue of subtrees not yet explored ordered by dmin
         pr = []
@@ -108,10 +108,10 @@ class MTree(object):
 
         #at the end will contain the results 
         nn = NN(len(self))
-
+        nn.correct_search_radius(distance)
         while pr:
             prEntry = heappop(pr)
-            if(prEntry.dmin > k):
+            if(prEntry.dmin > nn.search_radius()):
                 #best candidate is too far, we won't have better a answer
                 #we can stop
                 break
@@ -123,7 +123,6 @@ class MTree(object):
             
         return nn.result_list()
 
-    
 NNEntry = collections.namedtuple('NNEntry', 'obj dmax')
 class NN(object):
     def __init__(self, size):
@@ -157,6 +156,13 @@ class NN(object):
 
     def __repr__(self):
         return "NN(%r)" % self.elems
+
+    def correct_search_radius(self, dmax):
+        self.fixed_radius = True
+        self.dmax = dmax
+
+    def search_radius(self):
+        return self.dmax
             
 
 class PrEntry(object):

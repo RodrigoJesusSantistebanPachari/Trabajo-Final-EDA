@@ -140,11 +140,31 @@ def main():
 
 
     print("####################### RANGE QUERIES ###############################")
+    _paciente = input("Pacient_ID: ")
+    _sars = float(input("SARS: "))
+    _age_quantile = float(input("Age_quantile: "))
+    _hematocrit = float(input("Hematocrit: "))
+    _platelets = float(input("Platelets: "))
+    _platelet_volume = float(input("Platelet_volume: "))
+    _mchc = float(input("MCHC: "))
+    _leukocytes = float(input("Leukocytes: "))
+    _basophils = float(input("Basophils: "))
+    _eosinophils = float(input("Eosinophils: "))
+    _monocytes = float(input("Monocytes: "))
+    _proteina_c = float(input("Proteina_C: "))
     radio = float(input("Ingrese el radio:\t"))
-    new_point_paciente = point(Pacient_ID[i][j],SARS[i][j],float(Age_quantile[i][j]),_Hematocrit,_Platelets,_Platelet_volume,_MCHC,_Leukocytes,_Basophils,_Eosinophils,_Monocytes,_Proteina_C)
-    querie = mtree.search_in_radius(new_point_paciente,radio)
+
+    new_point_paciente = point(_paciente, _sars , _age_quantile , _hematocrit , _platelets , _platelet_volume , _mchc , _leukocytes , _basophils , _eosinophils , _monocytes , _proteina_c )
+
+    querie = mtree.search_in_radius(new_point_paciente, radio)
+
+    cont = 0
+    print("Pacient_ID \t SARS \t Age_quantile \t Hematocrit \t Platelets \t Platelet_volume  \t MCHC \t Leukocytes \t Basophils \t Eosinophils \t Monocytes  \t Monocytes \t Proteina_C")
     for obj in querie:
-        print(obj)
-    print(len(querie),'object found')
+        if(obj is not None):
+            print(str(obj.ID) + "\t" + str(obj.a) + "\t" + str(obj.b) + "\t" + str(obj.c) + "\t" + str(obj.d) + "\t" + str(obj.e) + "\t" + str(obj.f) + "\t" + str(obj.g) + "\t" + str(obj.h) + "\t" + str(obj.i) + "\t" + str(obj.j) + "\t" + str(obj.k))
+            cont+=1
+    print("OBJETOS EN EL RADIO DE CONSULTA SON: " + str(cont))
+    print("object-found")
     
 main()
